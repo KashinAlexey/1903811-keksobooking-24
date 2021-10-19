@@ -1,4 +1,4 @@
-import {getRandomFloatInclusive, getRandomIntegerInclusive, getNewRandomArray} from './util';
+import {getRandomFloatInclusive, getRandomIntegerInclusive, getNewRandomArray} from './util.js';
 
 // Массивы, описывающие возможные варианты некоторых значений для ключевых полей объекта (объявления об аренде)
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -16,7 +16,7 @@ const createSimilarObject = () => {
   return {
     author : {
       avatar:  `img/avatars/user${(`0${getRandomIntegerInclusive(1, 10)}`).slice(-2)}.png`,
-    }, // Добавить 0 перед 01, 02 ...
+    },
     offer : {
       title: 'For rent',
       address: `${location.lat}, ${location.lng}`,
@@ -34,4 +34,8 @@ const createSimilarObject = () => {
   };
 };
 
-export {createSimilarObject};
+// Формирование массива из 10 сгенерированных элементов - новых объектов (объявлений об аренде)
+const SIMILAR_OBJECT_COUNT = 1;
+const createObject = () => Array.from({length: SIMILAR_OBJECT_COUNT}, createSimilarObject);
+
+export {createObject};
