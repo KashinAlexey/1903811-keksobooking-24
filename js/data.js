@@ -1,4 +1,5 @@
 import {getRandomFloatInclusive, getRandomIntegerInclusive, getNewRandomArray} from './util.js';
+import {SIMILAR_OBJECT_COUNT} from './constants.js';
 
 // Массивы, описывающие возможные варианты некоторых значений для ключевых полей объекта (объявления об аренде)
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -34,8 +35,7 @@ const createSimilarObject = () => {
   };
 };
 
-// Формирование массива из 10 сгенерированных элементов - новых объектов (объявлений об аренде)
-const SIMILAR_OBJECT_COUNT = 1;
+// Формирование массива из сгенерированных элементов - новых объектов (объявлений об аренде)
 const createObject = () => Array.from({length: SIMILAR_OBJECT_COUNT}, createSimilarObject);
 
 export {createObject};
