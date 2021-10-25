@@ -1,5 +1,6 @@
 // Импортируем файл генерации данных
 import {objectType} from './constants.js';
+import {makeElement} from './util.js';
 
 // Находим окно вывода временных данных
 const mapCanvas = document.querySelector('#map-canvas');
@@ -9,18 +10,6 @@ const similarObjectTemplate = document.querySelector('#card').content.querySelec
 
 // Создаем фрагмент для добавления объявлений
 const similarListFragment = document.createDocumentFragment();
-
-// Создаем функцию, возвращающую новый элемент с тегом, классами и текстом (при наличии) для добавления в разметку
-const makeElement = (tagName, classNames, text) => {
-  const element = document.createElement(tagName);
-  classNames.forEach((className) => {
-    element.classList.add(className);
-  });
-  if (text) {
-    element.textContent = text;
-  }
-  return element;
-};
 
 // Создаем функцию, возвращающую заполненный данными (объявленими) фрагмент
 const createSimilarListFragment = (similarOblects) => {
