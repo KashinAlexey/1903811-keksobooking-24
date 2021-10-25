@@ -1,7 +1,8 @@
-import {createSimilarObject} from './data';
+import {createObject} from './data.js';
+import {renderPopup} from './popup.js';
 
-// Формирование массива из 10 сгенерированных элементов - новых объектов (объявлений об аренде)
-const SIMILAR_OBJECT_COUNT = 10;
-const similarObject = Array.from({length: SIMILAR_OBJECT_COUNT}, createSimilarObject);
+// Получаем массив объектов с объявлениями
+const similarOblects = createObject();
 
-similarObject === similarObject; // Временная запись для ESLint
+// Временно отрисовываем данные в окне
+renderPopup(similarOblects);
