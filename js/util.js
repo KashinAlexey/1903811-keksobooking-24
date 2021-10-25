@@ -11,4 +11,16 @@ const getRandomFloatInclusive = (min, max, simbolsCount) => +((Math.random() * (
 // Функция, возвращающая новый массив случайной длины, состоящий из неповторящихся элементов принимаего массива
 const getNewRandomArray = (elements) => elements.slice(0, getRandomIntegerInclusive(1, elements.length));
 
-export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray};
+// Функция, возвращающую новый элемент с тегом, классами и текстом (при наличии) для добавления в разметку
+const makeElement = (tagName, classNames, text) => {
+  const element = document.createElement(tagName);
+  classNames.forEach((className) => {
+    element.classList.add(className);
+  });
+  if (text) {
+    element.textContent = text;
+  }
+  return element;
+};
+
+export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray, makeElement};
