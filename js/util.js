@@ -1,3 +1,5 @@
+import {MANDATORY_TEXT} from './constants.js';
+
 // Функция, возвращающая случайное целое число из переданного диапазона включительно
 const getRandomIntegerInclusive = (min, max) => {
   min = Math.ceil(min);
@@ -23,4 +25,34 @@ const makeElement = (tagName, classNames, text) => {
   return element;
 };
 
-export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray, makeElement};
+// Функция валидации ввода (текста или чисел) в определнном диапазоне min и max (символов или значений) с выводом сообщений
+const isInputValueInRange = (elementInput, min, max, textForMin, textForMax, isNumber) => {
+  let value;
+
+  if (isNumber) {
+    value = elementInput.value;
+  } else {
+    value = elementInput.value.length;
+  }
+
+  if (value < min) {
+    elementInput.setCustomValidity(textForMin);
+  } else if (value > max) {
+    elementInput.setCustomValidity(textForMax);
+  } else {
+    elementInput.setCustomValidity('');
+  }
+
+  elementInput.reportValidity();
+};
+
+// Функция валидации обязательного значения
+const checkMandatoryValue = (elementInput) => {
+  if (elementInput.validity.valueMissing) {
+    elementInput.setCustomValidity(MANDATORY_TEXT);
+  } else {
+    elementInput.setCustomValidity('');
+  }
+};
+
+export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray, makeElement, isInputValueInRange, checkMandatoryValue};
