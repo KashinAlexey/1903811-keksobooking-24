@@ -4,8 +4,13 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="leaflet/leaflet.css"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
+  <style>
+
+
+  </style>
 </head>
 <body>
 
@@ -79,19 +84,19 @@
               <img src="img/muffin-grey.svg" alt="Аватар пользователя" width="40" height="44">
             </div>
             <div class="ad-form__field">
-              <input type="file" id="avatar" name="avatar" class="ad-form-header__input visually-hidden">
+              <input type="file" id="avatar" name="avatar" class="ad-form-header__input visually-hidden" accept="image/*">
               <label class="ad-form-header__drop-zone" for="avatar">Загрузить<br>фото...</label>
             </div>
-            <p class="ad-form-header__info">Заполните все обязательные поля (отмечены *), назначьте цену, загрузите аватар и фото жилья. Придумайте интересное описание. Оно сделает объявление более живым и привлекательным. Получившееся объявление должно давать гостям полное представление о вашем жилье.</p>
+            <p class="ad-form-header__info">Заполните все обязательные поля, назначьте цену, загрузите аватар и фото жилья. Придумайте интересное описание. Оно сделает объявление более живым и привлекательным. Получившееся объявление должно давать гостям полное представление о вашем жилье.</p>
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label" for="title">Заголовок объявления*</label>
-          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" required="" minlength="30" maxlength="100">
+          <label class="ad-form__label" for="title">Заголовок объявления (обязательно)</label>
+          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" required="" minlength="30" maxlength="100" autofocus>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label" for="address">Адрес (координаты)*</label>
-          <input id="address" name="address" type="text">
+          <label class="ad-form__label" for="address">Адрес (координаты)</label>
+          <input id="address" name="address" type="text" required="" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -104,8 +109,8 @@
           </select>
         </fieldset>
         <fieldset class="ad-form__element">
-          <label class="ad-form__label" for="price">Цена за ночь, руб.*</label>
-          <input id="price" name="price" type="number" placeholder="5000" required="" min=0 max=1000000>
+          <label class="ad-form__label" for="price">Цена за ночь, руб. (обязательно)</label>
+          <input id="price" name="price" type="number" placeholder="1000" required="" min=0 max=1000000>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -154,17 +159,16 @@
           <label class="features__label features__label--conditioner" for="feature-conditioner">Кондиционер</label>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label" for="description">Описание (не обязательно)</label>
+          <label class="ad-form__label" for="description">Описание</label>
           <textarea id="description" name="description" placeholder="Здесь расскажите о том, какое ваше жилье замечательное и вообще"></textarea>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label">Фотография жилья</label>
+          <label class="ad-form__label">Фотография жилья (не более 10)</label>
           <div class="ad-form__photo-container">
             <div class="ad-form__upload">
-              <input type="file" id="images" name="images" class="ad-form__input visually-hidden">
+              <input type="file" id="images" name="images" class="ad-form__input visually-hidden" accept="image/*" multiple>
               <label for="images" class="ad-form__drop-zone">Загрузить<br>фото...</label>
             </div>
-            <div class="ad-form__photo"></div>
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--submit">
@@ -231,6 +235,7 @@
   </template>
 
   <!-- Скрипты -->
+  <script src="./leaflet/leaflet.js"></script>
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>

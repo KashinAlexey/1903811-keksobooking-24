@@ -1,15 +1,10 @@
 import {createObject} from './data.js';
-import {renderPopup} from './popup.js';
-import {deactivationForm, activationForm} from './form.js';
-
-// Деактивация формы
-deactivationForm();
-
-// Активация формы
-activationForm();
+import {createMarker} from './map.js';
 
 // Получаем массив объектов с объявлениями
 const similarOblects = createObject();
 
-// Временно отрисовываем данные в окне
-renderPopup(similarOblects);
+// Добавляем на карту метки из массива объектов
+similarOblects.forEach(({author, offer}) => {
+  createMarker(author, offer);
+});
