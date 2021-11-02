@@ -1,4 +1,5 @@
 import {MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings} from './constants.js';
+
 import {isInputValueInRange, checkMandatoryValue, makeElement} from './util.js';
 import {resetMap} from './map.js';
 
