@@ -55,4 +55,12 @@ const typeMinPrice = {
   palace: 10000,
 };
 
-export {objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice};
+// Объект контейнера с аватаром
+const avatarSettings = {
+  src: 'img/muffin-grey.svg',
+  alt: 'Аватар пользователя',
+  width: '40',
+  height: '44',
+};
+
+export {objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings};

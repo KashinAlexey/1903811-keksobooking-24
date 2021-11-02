@@ -1,6 +1,6 @@
 import {createPopupElement} from './popup.js';
 import {LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon} from './constants.js';
-import {deactivationForm, activationForm} from './form.js';
+import {deactivationForm, activationForm, validationForm} from './form.js';
 
 const address = document.querySelector('#address');
 
@@ -13,6 +13,7 @@ const map = L.map('map-canvas');
 // Подписка на событие загрузки карты
 map.on('load', () => {
   activationForm(); // Активация формы после загрузки карты
+  validationForm(); // Валидация формы после загрузки карты
   address.value = `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`;
 }).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
 
