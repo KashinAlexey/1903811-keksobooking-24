@@ -1,5 +1,5 @@
 import {MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings} from './constants.js';
-import {isInputValueInRange, checkMandatoryValue, makeElement, isEscapeKey, openModal, closeModal} from './util.js';
+import {isInputValueInRange, checkMandatoryValue, makeElement} from './util.js';
 import {resetMap} from './map.js';
 import {sendData} from './api.js';
 import {resetFilter} from './filter.js';
@@ -80,35 +80,31 @@ const resetForm = () => {
   resetFilter();
 };
 
-// Сообщение и обработчики успешной отправки формы
-const onPopupSuccessEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeSuccessModal();
+// События окна удачной отправки формы
+const closeSuccessModal = (evt) => {
+  if (evt.key === 'Escape' || evt.type === 'click') {
+    successElement.remove();
   }
 };
 
-const onPopupSuccessClick = () => {
-  closeSuccessModal();
+const openSuccessModal = () => {
+  document.body.append(successElement);
+  document.addEventListener('keydown', closeSuccessModal, true);
+  document.addEventListener('click', closeSuccessModal, true);
 };
 
-const closeSuccessModal = closeModal(successElement, onPopupSuccessClick, onPopupSuccessEscKeydown);
-const openSuccessModal = openModal(successElement, onPopupSuccessClick, onPopupSuccessEscKeydown);
-
-// Сообщение и обработчики не успешной отправки формы
-const onPopupErrorEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeErrorModal();
+// События окна неудачной отправки формы
+const closeErrorModal = (evt) => {
+  if (evt.key === 'Escape' || evt.type === 'click') {
+    errorElement.remove();
   }
 };
 
-const onPopupErrorClick = () => {
-  closeErrorModal();
+const openErrorModal = () => {
+  document.body.append(errorElement);
+  document.addEventListener('keydown', closeErrorModal, true);
+  document.addEventListener('click', closeErrorModal, true);
 };
-
-const closeErrorModal = closeModal(errorElement, onPopupErrorClick, onPopupErrorEscKeydown);
-const openErrorModal = openModal(errorElement, onPopupErrorClick, onPopupErrorEscKeydown);
 
 // Функция валидации формы
 const validationForm = () => {

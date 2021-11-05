@@ -77,27 +77,4 @@ const showErrorAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-// Проверка нажатия клавиши Esc
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
-// Удаление блока и его обработчиков событий
-const closeModal = (element, clickEvent, escKeydownEvent) => {
-  const foo = () => {
-    element.remove();
-    document.removeEventListener('keydown', escKeydownEvent);
-    document.removeEventListener('click', clickEvent);
-  };
-  return foo;
-};
-
-// Добавление блока и его обработчиков событий
-const openModal = (element, clickEvent, escKeydownEvent) => {
-  const foo = () => {
-    document.body.append(element);
-    document.addEventListener('keydown', escKeydownEvent);
-    document.addEventListener('click', clickEvent);
-  };
-  return foo;
-};
-
-export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray, makeElement, isInputValueInRange, checkMandatoryValue, showErrorAlert, isEscapeKey, closeModal, openModal};
+export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray, makeElement, isInputValueInRange, checkMandatoryValue, showErrorAlert};
