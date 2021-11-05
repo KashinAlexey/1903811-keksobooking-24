@@ -24,12 +24,16 @@ const MANDATORY_TEXT = 'Обязательное поле';
 const LAT_TOKYO_CENTER = 35.68368;
 const LNG_TOKYO_CENTER = 139.77261;
 
+// Время показа сообщения
+const ALERT_SHOW_TIME = 5000;
+
 // Объект описания пользовательской вспомогательной метки
 const simpleIcon = {
   iconUrl: '/img/pin.svg', // Внешний вид
   iconSize: [40, 40], // Размер
   iconAnchor: [20, 40], // якорь маркера (важно!)
 };
+
 // Объект описания пользовательской основной метки
 const mainIcon = {
   iconUrl: '/img/main-pin.svg', // Внешний вид
@@ -63,4 +67,4 @@ const avatarSettings = {
   height: '44',
 };
 
-export {objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings};
+export {objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings, ALERT_SHOW_TIME};

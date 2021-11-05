@@ -1,10 +1,14 @@
-import {createObject} from './data.js';
 import {createMarker} from './map.js';
+import {showErrorAlert} from './util.js';
+import {isMapLoad} from './map.js';
 
-// Получаем массив объектов с объявлениями
-const similarOblects = createObject();
+// Вывод полученных с сервера объектов на карту
+const renderSimilarOblects = (similarOblects) => {
+  similarOblects.forEach(({author, location, offer}) => {
+    createMarker(author, location, offer);
+  });
+};
 
-// Добавляем на карту метки из массива объектов
-similarOblects.forEach(({author, offer}) => {
-  createMarker(author, offer);
-});
+// Активация формы, отрисовка меток при успешной загрузке карты
+isMapLoad(renderSimilarOblects, showErrorAlert);
+
