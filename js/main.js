@@ -1,14 +1,22 @@
-import {createMarker} from './map.js';
-import {showErrorAlert} from './util.js';
-import {isMapLoad} from './map.js';
+import { showErrorAlert } from './util.js';
+import { isMapLoad } from './map.js';
+import { renderSimilarOblects } from './popup.js';
+import { getData } from './api.js';
+import { deactivationForm, activationForm, validationForm } from './form.js';
 
-// Вывод полученных с сервера объектов на карту
-const renderSimilarOblects = (similarOblects) => {
-  similarOblects.forEach(({author, location, offer}) => {
-    createMarker(author, location, offer);
-  });
+// Кол-бэк получения данных с сервера и их отрисовки на карту
+const getSimilarObjects = () => {
+  getData((similarOblects) => {
+    renderSimilarOblects (similarOblects);
+  },
+  showErrorAlert);
 };
 
-// Активация формы, отрисовка меток при успешной загрузке карты
-isMapLoad(renderSimilarOblects, showErrorAlert);
+// Деактивация формы до загрузки карты
+deactivationForm();
 
+// После загрузки карты:
+// 1) активировать форму
+// 2) запустить валидацию
+// 3) сделать запрос за данными и передать их в метод для отрисовки
+isMapLoad(activationForm, validationForm, getSimilarObjects );

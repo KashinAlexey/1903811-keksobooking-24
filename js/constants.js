@@ -27,6 +27,10 @@ const LNG_TOKYO_CENTER = 139.77261;
 // Время показа сообщения
 const ALERT_SHOW_TIME = 5000;
 
+// Пути к серверу
+const SEND_URL = 'https://24.javascript.pages.academy/keksobooking';
+const GET_URL = 'https://24.javascript.pages.academy/keksobooking/data';
+
 // Объект описания пользовательской вспомогательной метки
 const simpleIcon = {
   iconUrl: '/img/pin.svg', // Внешний вид
@@ -67,4 +71,4 @@ const avatarSettings = {
   height: '44',
 };
 
-export {objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings, ALERT_SHOW_TIME};
+export { objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings, ALERT_SHOW_TIME, SEND_URL, GET_URL };

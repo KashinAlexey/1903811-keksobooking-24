@@ -1,8 +1,9 @@
 import { resetForm } from './form.js';
+import { SEND_URL, GET_URL } from './constants.js';
 
 // Получение данных с сервера и обработка возможных ошибок
 const getData = (onSuccess, onError) => {
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+  fetch(GET_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -20,8 +21,7 @@ const getData = (onSuccess, onError) => {
 
 // Отправка данных на сервер и обработка возможных ошибок
 const sendData = (onSuccess, onError, body) => {
-  fetch(
-    'https://24.javascript.pages.academy/keksobooking',
+  fetch(SEND_URL,
     {
       method: 'POST',
       body,
@@ -41,4 +41,4 @@ const sendData = (onSuccess, onError, body) => {
     });
 };
 
-export {getData, sendData};
+export { getData, sendData };

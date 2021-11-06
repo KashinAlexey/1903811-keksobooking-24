@@ -1,23 +1,17 @@
-import {createPopupElement} from './popup.js';
-import {LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon} from './constants.js';
-import {deactivationForm, activationForm, validationForm} from './form.js';
-import {getData} from './api.js';
+import { LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon } from './constants.js';
 
 const address = document.querySelector('#address');
-
-// Деактивация формы до загрузки карты
-deactivationForm();
 
 // Создание блока управления картой, передаем Id элемента куда отрисовать карту
 const map = L.map('map-canvas');
 
 // Подписка на событие загрузки карты
-const isMapLoad = (renderSimilarOblects, showErrorAlert) => {
+const isMapLoad = (activationForm, validationForm, getSimilarObjects) => {
   map.on('load', () => {
     activationForm(); // Активация формы после загрузки карты
     validationForm(); // Валидация формы после загрузки карты
     address.value = `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`;
-    getData(renderSimilarOblects, showErrorAlert); // получение данных
+    getSimilarObjects();
   }).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
 };
 
@@ -44,10 +38,10 @@ const markerGroup = L.layerGroup().addTo(map);
 
 // Функция добавления в группу простой метки
 // и соотвествующего ей балуна с подробной информацией об объявлении
-const createMarker = (author,  location, offer) => {
+const createMarker = (objectElement, location) => {
   const {lat, lng} = location;
   const simpleMarker = L.marker({lat, lng},{icon: L.icon(simpleIcon)});
-  simpleMarker.addTo(markerGroup).bindPopup(createPopupElement({author, offer}));
+  simpleMarker.addTo(markerGroup).bindPopup(objectElement);
 };
 
 // Функция возврата метки и карты в исходное состояние
