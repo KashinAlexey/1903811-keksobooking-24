@@ -6,22 +6,20 @@ const address = document.querySelector('#address');
 const map = L.map('map-canvas');
 
 // Подписка на событие загрузки карты
-const isMapLoad = (activationForm, validationForm, getSimilarObjects) => {
+const isMapLoad = (cb) => {
   map.on('load', () => {
-    activationForm(); // Активация формы после загрузки карты
-    validationForm(); // Валидация формы после загрузки карты
     address.value = `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`;
-    getSimilarObjects();
+    cb();
   }).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
-};
 
-// Добавляем в блок изображение самой карты от стороннего поставщика
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
-  },
-).addTo(map);
+  // Добавляем в блок изображение самой карты от стороннего поставщика
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
+    },
+  ).addTo(map);
+};
 
 // Создание главной метки и добавление ее на карту
 const mainMarker = L.marker([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER],{icon: L.icon(mainIcon),draggable: true}).addTo(map);
@@ -44,6 +42,11 @@ const createMarker = (objectElement, location) => {
   simpleMarker.addTo(markerGroup).bindPopup(objectElement);
 };
 
+// Очистка группы меток
+const clearMarkerGroup = () => {
+  markerGroup.clearLayers();
+};
+
 // Функция возврата метки и карты в исходное состояние
 // с установкой в поле ввода исходного значения адреса
 const resetMap = () => {
@@ -60,4 +63,4 @@ const resetMap = () => {
   address.setAttribute('value', `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`);
 };
 
-export {createMarker, resetMap, isMapLoad};
+export {createMarker, resetMap, isMapLoad, clearMarkerGroup};

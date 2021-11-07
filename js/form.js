@@ -6,8 +6,6 @@ import { resetFilter } from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('.ad-form__element');
-const mapFilter = document.querySelector('.map__filters');
-const mapFilterElements = document.querySelectorAll('.map__filter');
 const titleInput = document.querySelector('#title');
 const priceInput = document.querySelector('#price');
 const roomNumbeInput = document.querySelector('#room_number');
@@ -53,20 +51,12 @@ const deactivationForm = () => {
   formElements.forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
-  mapFilter.classList.add('ad-form--disabled');
-  mapFilterElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
-  });
 };
 
 // Функция активации формы
 const activationForm = () => {
   form.classList.remove('ad-form--disabled');
   formElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-  mapFilter.classList.remove('ad-form--disabled');
-  mapFilterElements.forEach((element) => {
     element.removeAttribute('disabled');
   });
 };
@@ -201,9 +191,6 @@ const validationForm = () => {
   };
   imageInput.addEventListener('input', showImagesPreview);
 
-  // Событие сброса формы
-  resetButton.addEventListener('click', resetForm);
-
   // Обработчик отправки формы без перезагрузки страницы
   const setUserFormSubmit = (evt) => {
     evt.preventDefault();
@@ -214,4 +201,12 @@ const validationForm = () => {
   form.addEventListener('submit', setUserFormSubmit);
 };
 
-export { deactivationForm, activationForm, validationForm, resetForm };
+// Событие сброса формы
+const checkFormReset = (cb) => {
+  resetButton.addEventListener('click', () => {
+    resetForm();
+    cb();
+  });
+};
+
+export { deactivationForm, activationForm, validationForm, resetForm, checkFormReset };

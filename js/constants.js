@@ -12,6 +12,9 @@ const MAX_TITLE_LENGTH = 100;
 const MIN_PRICE_VALUE = 0;
 const MAX_PRICE_VALUE = 1000000;
 
+// Задержка реакции на фильтрацию данных
+const TIMEOUT_DELAY = 500;
+
 // Текст пользовательских сообщений валидации ввода текста и чисел
 const MIN_STRING_TEXT = 'Добавьте ещё символов';
 const MAX_STRING_TEXT = 'Удалите лишние символы';
@@ -71,4 +74,4 @@ const avatarSettings = {
   height: '44',
 };
 
-export { objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings, ALERT_SHOW_TIME, SEND_URL, GET_URL };
+export { objectType, SIMILAR_OBJECT_COUNT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MANDATORY_TEXT, LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, simpleIcon, mainIcon, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings, ALERT_SHOW_TIME, SEND_URL, GET_URL, TIMEOUT_DELAY };

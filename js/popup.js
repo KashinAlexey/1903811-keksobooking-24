@@ -1,7 +1,8 @@
 // Импортируем файл генерации данных
-import {objectType} from './constants.js';
+import {objectType, SIMILAR_OBJECT_COUNT} from './constants.js';
 import {makeElement} from './util.js';
-import { createMarker } from './map.js';
+import { createMarker, clearMarkerGroup } from './map.js';
+import {compareItems} from './filter.js';
 
 // Находим шаблон который будем клонировать
 const similarObjectTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -9,7 +10,9 @@ const similarObjectTemplate = document.querySelector('#card').content.querySelec
 // Создаем функцию отрисовки полученных данных на карте
 const renderSimilarOblects = (similarOblects) => {
 
-  similarOblects.forEach(({author, location, offer}) => {
+  clearMarkerGroup(); // Очистка группы меток карты перед новой отрисовкой
+
+  similarOblects.filter(compareItems).slice(0, SIMILAR_OBJECT_COUNT).forEach(({author, location, offer}) => {
     const objectElement = similarObjectTemplate.cloneNode(true); // Клонируем шаблон
     objectElement.querySelector('.popup__title').textContent = offer.title;  objectElement.querySelector('.popup__text--address').textContent = offer.address;
     objectElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
