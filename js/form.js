@@ -1,7 +1,8 @@
-import {MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings} from './constants.js';
-
-import {isInputValueInRange, checkMandatoryValue, makeElement} from './util.js';
-import {resetMap} from './map.js';
+import { MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings } from './constants.js';
+import { isInputValueInRange, checkMandatoryValue, makeElement } from './util.js';
+import { resetMap } from './map.js';
+import { sendData } from './api.js';
+import { resetFilter } from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('.ad-form__element');
@@ -23,6 +24,12 @@ const imageInput = document.querySelector('#images');
 const headerPreview = document.querySelector('.ad-form-header__preview').querySelector('img');
 const photoContainer = document.querySelector('.ad-form__photo-container');
 const photoContainerList = photoContainer.children;
+
+// Шаблоны сообщений успешной и не успешной отправки формы
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const successElement = successTemplate.cloneNode(true);
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const errorElement = errorTemplate.cloneNode(true);
 
 // Фунция очистки контейнера с фотографиями
 const resetImage = () => {
@@ -62,6 +69,45 @@ const activationForm = () => {
   mapFilterElements.forEach((element) => {
     element.removeAttribute('disabled');
   });
+};
+
+// Очистка формы
+const resetForm = () => {
+  form.reset();
+  resetMap();
+  resetAvatar();
+  resetImage();
+  resetFilter();
+};
+
+// События окна удачной отправки формы
+const closeSuccessModal = (evt) => {
+  if (evt.key === 'Escape' || evt.type === 'click') {
+    successElement.remove();
+    document.removeEventListener('keydown', closeSuccessModal);
+    document.removeEventListener('click', closeSuccessModal);
+  }
+};
+
+const openSuccessModal = () => {
+  document.body.append(successElement);
+  document.addEventListener('keydown', closeSuccessModal);
+  document.addEventListener('click', closeSuccessModal);
+};
+
+// События окна неудачной отправки формы
+const closeErrorModal = (evt) => {
+  if (evt.key === 'Escape' || evt.type === 'click') {
+    errorElement.remove();
+    document.removeEventListener('keydown', closeErrorModal);
+    document.removeEventListener('click', closeErrorModal);
+  }
+};
+
+const openErrorModal = () => {
+  document.body.append(errorElement);
+  document.addEventListener('keydown', closeErrorModal);
+  document.addEventListener('click', closeErrorModal);
 };
 
 // Функция валидации формы
@@ -155,13 +201,17 @@ const validationForm = () => {
   };
   imageInput.addEventListener('input', showImagesPreview);
 
-  // Очистка формы
-  const resetForm = () => {
-    resetMap();
-    resetAvatar();
-    resetImage();
-  };
+  // Событие сброса формы
   resetButton.addEventListener('click', resetForm);
+
+  // Обработчик отправки формы без перезагрузки страницы
+  const setUserFormSubmit = (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(openSuccessModal, openErrorModal, formData);
+  };
+
+  form.addEventListener('submit', setUserFormSubmit);
 };
 
-export {deactivationForm, activationForm, validationForm};
+export { deactivationForm, activationForm, validationForm, resetForm };

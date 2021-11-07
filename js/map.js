@@ -1,21 +1,19 @@
-import {createPopupElement} from './popup.js';
-import {LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon} from './constants.js';
-import {deactivationForm, activationForm, validationForm} from './form.js';
+import { LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon } from './constants.js';
 
 const address = document.querySelector('#address');
-
-// Деактивация формы до загрузки карты
-deactivationForm();
 
 // Создание блока управления картой, передаем Id элемента куда отрисовать карту
 const map = L.map('map-canvas');
 
 // Подписка на событие загрузки карты
-map.on('load', () => {
-  activationForm(); // Активация формы после загрузки карты
-  validationForm(); // Валидация формы после загрузки карты
-  address.value = `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`;
-}).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
+const isMapLoad = (activationForm, validationForm, getSimilarObjects) => {
+  map.on('load', () => {
+    activationForm(); // Активация формы после загрузки карты
+    validationForm(); // Валидация формы после загрузки карты
+    address.value = `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`;
+    getSimilarObjects();
+  }).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
+};
 
 // Добавляем в блок изображение самой карты от стороннего поставщика
 L.tileLayer(
@@ -40,10 +38,10 @@ const markerGroup = L.layerGroup().addTo(map);
 
 // Функция добавления в группу простой метки
 // и соотвествующего ей балуна с подробной информацией об объявлении
-const createMarker = (author, offer) => {
-  const {lat, lng} = offer.location;
+const createMarker = (objectElement, location) => {
+  const {lat, lng} = location;
   const simpleMarker = L.marker({lat, lng},{icon: L.icon(simpleIcon)});
-  simpleMarker.addTo(markerGroup).bindPopup(createPopupElement({author, offer}));
+  simpleMarker.addTo(markerGroup).bindPopup(objectElement);
 };
 
 // Функция возврата метки и карты в исходное состояние
@@ -62,4 +60,4 @@ const resetMap = () => {
   address.setAttribute('value', `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`);
 };
 
-export {createMarker, resetMap};
+export {createMarker, resetMap, isMapLoad};
