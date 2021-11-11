@@ -22,28 +22,28 @@ const photoContainer = document.querySelector('.ad-form__photo-container');
 const photoContainerList = photoContainer.children;
 
 // Функции модуля
-const onResetUserForm = (getData, isDataNotEmpty) => {
+const onResetUserForm = (getData) => {
   // Внутренняя логика
   resetButton.addEventListener('click', () => {
     // Внешняя логика
-    setDefaultsParameters(getData, isDataNotEmpty);
+    setDefaultsParameters(getData);
   });
 }; // OK
 
-const onUserFormSubmit = (getData, isDataNotEmpty) => {
+const onUserFormSubmit = (getData) => {
   // Внутренняя логика
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
-    sendData(formData, getData, isDataNotEmpty);
+    sendData(formData, getData);
   });
 }; // OK
 
-const validationUserForm = (getData, isDataNotEmpty) => {
+const validationUserForm = (getData) => {
   // Внешняя логика
   getAddressFromMap();
-  onResetUserForm(getData, isDataNotEmpty);
-  onUserFormSubmit(getData, isDataNotEmpty);
+  onResetUserForm(getData);
+  onUserFormSubmit(getData);
 
   // Внутренняя логика
   // Валидация формы добавления объявления.
@@ -179,10 +179,10 @@ const deactivationUserForm = () => {
   });
 }; // OK
 
-const activationUserForm = (getData, isDataNotEmpty) => {
+const activationUserForm = (getData) => {
   // Внешняя логика
   setUserFormDefaultParameters();
-  validationUserForm(getData, isDataNotEmpty);
+  validationUserForm(getData);
 
   // Внутренняя логика
   form.classList.remove('ad-form--disabled');

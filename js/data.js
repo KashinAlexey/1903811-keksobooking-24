@@ -14,15 +14,15 @@ const getData = () => {
     })
     .then((dataIn) => {
       activationFilterForm(dataIn);
-      activationUserForm(dataIn, true);
+      activationUserForm(dataIn);
     })
     .catch(() => {
       showGetDataErrMsg();
-      activationUserForm([{}], false);
+      activationUserForm([{}]);
     });
 }; // OK
 
-const sendData = (body, dataIn, isDataEmpty) => {
+const sendData = (body, dataIn) => {
   fetch(SEND_URL,
     {
       method: 'POST',
@@ -31,7 +31,7 @@ const sendData = (body, dataIn, isDataEmpty) => {
   )
     .then((response) => {
       if (response.ok) {
-        showSendDataSuccessMsg(dataIn, isDataEmpty);
+        showSendDataSuccessMsg(dataIn);
         return;
       }
 

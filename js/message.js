@@ -8,7 +8,9 @@ const errMsgContainerForSendData = document.querySelector('#error').content.quer
 const butttonCloseErrMsgContainerForSendData = errMsgContainerForSendData.querySelector('.error__button');
 const successMsgContainerForSendData = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 
-const setDefaultsParameters = (getData, isDataNotEmpty) => {
+const setDefaultsParameters = (getData) => {
+
+  const isDataNotEmpty = Object.getOwnPropertyNames(getData).length > 2;
 
   setUserFormDefaultParameters();
   setMapDefaultParameters();
@@ -66,12 +68,12 @@ const onSendDataSuccessMsg = () => {
   document.addEventListener('keydown', closeSendDataSuccessMsg);
   document.addEventListener('click', closeSendDataSuccessMsg);
 }; // OK
-const showSendDataSuccessMsg = (getData, isDataNotEmpty) => {
+const showSendDataSuccessMsg = (getData) => {
   // Внутренняя логика
   document.body.append(successMsgContainerForSendData);
   // Внешняя логика
   onSendDataSuccessMsg();
-  setDefaultsParameters(getData, isDataNotEmpty);
+  setDefaultsParameters(getData);
 }; // OK
 
 const closeSendDataErrMsg = (evt) => {
