@@ -1,9 +1,10 @@
+import { setDefaultsParameters } from './message.js';
+import { sendData } from './data.js';
 import { MIN_TITLE_LENGTH, MAX_TITLE_LENGTH, MIN_PRICE_VALUE, MAX_PRICE_VALUE, MIN_STRING_TEXT, MAX_STRING_TEXT, MIN_NUMBER_TEXT, MAX_NUMBER_TEXT, ROOM_CAPACITY_TEXT, MAX_PHOTO_COUNT, typeMinPrice, avatarSettings } from './constants.js';
 import { isInputValueInRange, checkMandatoryValue, makeElement } from './util.js';
-import { resetMap } from './map.js';
-import { sendData } from './api.js';
-import { resetFilter } from './filter.js';
+import { getAddressFromMap } from './map.js';
 
+// Обявляем переменные
 const form = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('.ad-form__element');
 const titleInput = document.querySelector('#title');
@@ -13,95 +14,38 @@ const capacityInput = document.querySelector('#capacity');
 const timeinInput = document.querySelector('#timein');
 const timeoutInput = document.querySelector('#timeout');
 const typeInput = document.querySelector('#type');
-
 const resetButton = document.querySelector('.ad-form__reset');
-
-// Для работы с изображениями
 const avatarInput = document.querySelector('#avatar');
 const imageInput = document.querySelector('#images');
 const headerPreview = document.querySelector('.ad-form-header__preview').querySelector('img');
 const photoContainer = document.querySelector('.ad-form__photo-container');
 const photoContainerList = photoContainer.children;
 
-// Шаблоны сообщений успешной и не успешной отправки формы
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const successElement = successTemplate.cloneNode(true);
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const errorElement = errorTemplate.cloneNode(true);
-
-// Фунция очистки контейнера с фотографиями
-const resetImage = () => {
-  // Очищаем контейнер от текущих фото
-  while (photoContainerList.length !== 1) {
-    photoContainerList[1].remove();
-  }
-};
-
-// Функция очистки контейнера с аватаром
-const resetAvatar = () => {
-  headerPreview.src = avatarSettings.src;
-  headerPreview.alt = avatarSettings.alt;
-  headerPreview.width = avatarSettings.width;
-  headerPreview.height = avatarSettings.height;
-};
-
-// Функция деактивации формы
-const deactivationForm = () => {
-  form.classList.add('ad-form--disabled');
-  formElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+// Функции модуля
+const onResetUserForm = (getData, isDataNotEmpty) => {
+  // Внутренняя логика
+  resetButton.addEventListener('click', () => {
+    // Внешняя логика
+    setDefaultsParameters(getData, isDataNotEmpty);
   });
-};
+}; // OK
 
-// Функция активации формы
-const activationForm = () => {
-  form.classList.remove('ad-form--disabled');
-  formElements.forEach((element) => {
-    element.removeAttribute('disabled');
+const onUserFormSubmit = (getData, isDataNotEmpty) => {
+  // Внутренняя логика
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(formData, getData, isDataNotEmpty);
   });
-};
+}; // OK
 
-// Очистка формы
-const resetForm = () => {
-  form.reset();
-  resetMap();
-  resetAvatar();
-  resetImage();
-  resetFilter();
-};
+const validationUserForm = (getData, isDataNotEmpty) => {
+  // Внешняя логика
+  getAddressFromMap();
+  onResetUserForm(getData, isDataNotEmpty);
+  onUserFormSubmit(getData, isDataNotEmpty);
 
-// События окна удачной отправки формы
-const closeSuccessModal = (evt) => {
-  if (evt.key === 'Escape' || evt.type === 'click') {
-    successElement.remove();
-    document.removeEventListener('keydown', closeSuccessModal);
-    document.removeEventListener('click', closeSuccessModal);
-  }
-};
-
-const openSuccessModal = () => {
-  document.body.append(successElement);
-  document.addEventListener('keydown', closeSuccessModal);
-  document.addEventListener('click', closeSuccessModal);
-};
-
-// События окна неудачной отправки формы
-const closeErrorModal = (evt) => {
-  if (evt.key === 'Escape' || evt.type === 'click') {
-    errorElement.remove();
-    document.removeEventListener('keydown', closeErrorModal);
-    document.removeEventListener('click', closeErrorModal);
-  }
-};
-
-const openErrorModal = () => {
-  document.body.append(errorElement);
-  document.addEventListener('keydown', closeErrorModal);
-  document.addEventListener('click', closeErrorModal);
-};
-
-// Функция валидации формы
-const validationForm = () => {
+  // Внутренняя логика
   // Валидация формы добавления объявления.
   // Заголовок объявления
   const isMissingTitleValue = () => checkMandatoryValue(titleInput);
@@ -157,13 +101,30 @@ const validationForm = () => {
   timeinInput.addEventListener('change', checkTimeoutValue);
   timeoutInput.addEventListener('change', checkTimeinValue);
 
+  // Функция очистки контейнера с аватаром
+  const resetAvatar = () => {
+    headerPreview.src = avatarSettings.src;
+    headerPreview.alt = avatarSettings.alt;
+    headerPreview.width = avatarSettings.width;
+    headerPreview.height = avatarSettings.height;
+  };
   // Показать превью аватара после ввода
-  const showAvatarPreview = () => headerPreview.src =  window.URL.createObjectURL(avatarInput.files[0]);
-
+  const showAvatarPreview = () => {
+    resetAvatar();
+    headerPreview.src =  window.URL.createObjectURL(avatarInput.files[0]);
+  };
   avatarInput.addEventListener('input', showAvatarPreview);
 
   // Фотографии жилья
   // Функция показа превью фотографий жилья после ввода
+  // Фунция очистки контейнера с фотографиями
+  const resetImage = () => {
+    // Очищаем контейнер от текущих фото
+    while (photoContainerList.length !== 1) {
+      photoContainerList[1].remove();
+    }
+  };
+
   const showImagesPreview = () => {
     resetImage();
     // Создаем фрагмент для добавления фото
@@ -190,23 +151,44 @@ const validationForm = () => {
     photoContainer.appendChild(photoListFragment);
   };
   imageInput.addEventListener('input', showImagesPreview);
+}; // OK
 
-  // Обработчик отправки формы без перезагрузки страницы
-  const setUserFormSubmit = (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-    sendData(openSuccessModal, openErrorModal, formData);
+const setUserFormDefaultParameters = () => {
+  const resetAvatarImg = () => {
+    headerPreview.src = avatarSettings.src;
+    headerPreview.alt = avatarSettings.alt;
+    headerPreview.width = avatarSettings.width;
+    headerPreview.height = avatarSettings.height;
   };
 
-  form.addEventListener('submit', setUserFormSubmit);
-};
+  const resetItemImg = () => {
+    while (photoContainerList.length !== 1) {
+      photoContainerList[1].remove();
+    }
+  };
 
-// Событие сброса формы
-const checkFormReset = (cb) => {
-  resetButton.addEventListener('click', () => {
-    resetForm();
-    cb();
+  form.reset();
+  resetItemImg();
+  resetAvatarImg();
+}; // OK
+
+const deactivationUserForm = () => {
+  form.classList.add('ad-form--disabled');
+  formElements.forEach((element) => {
+    element.setAttribute('disabled', 'disabled');
   });
-};
+}; // OK
 
-export { deactivationForm, activationForm, validationForm, resetForm, checkFormReset };
+const activationUserForm = (getData, isDataNotEmpty) => {
+  // Внешняя логика
+  setUserFormDefaultParameters();
+  validationUserForm(getData, isDataNotEmpty);
+
+  // Внутренняя логика
+  form.classList.remove('ad-form--disabled');
+  formElements.forEach((element) => {
+    element.removeAttribute('disabled');
+  });
+}; //OK
+
+export { deactivationUserForm, activationUserForm, setUserFormDefaultParameters };
