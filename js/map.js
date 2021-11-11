@@ -77,14 +77,12 @@ const setMapDefaultParameters = () => {
   address.setAttribute('value', `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`);
 };
 
-const isMapLoad = () => {
+const mapLoad = (cb) => {
   // Внутренняя логика
   map.on('load', () => {
     // Внешняя логика
-    getData();
-  });
-
-  map.setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
+    cb();
+  }).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
 
   // Добавляем в блок изображение самой карты от стороннего поставщика
   L.tileLayer(
@@ -111,4 +109,4 @@ const getAddressFromMap = () =>  {
   onAddressFromMap();
 }; // OK
 
-export { isMapLoad, getAddressFromMap, renderMarkersOnMap, setMapDefaultParameters };
+export { mapLoad, getAddressFromMap, renderMarkersOnMap, setMapDefaultParameters };
