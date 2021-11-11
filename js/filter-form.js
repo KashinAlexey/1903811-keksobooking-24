@@ -94,9 +94,9 @@ const compareItems = ({offer}) => {
   return offer.type === typeAny && offer.rooms === roomsAny && offerPrice === priceAny && offer.guests === guestsAny && isFeaturesInclude;
 }; // OK
 
-const getFilteredData = (data) => {
+const getFilteredData = (dataFromServer) => {
   // Внешняя логика
-  renderMarkersOnMap(data);
+  renderMarkersOnMap(dataFromServer);
 }; // OK
 
 const onFilterFormChange = (cb) => {
@@ -108,12 +108,12 @@ const onFilterFormChange = (cb) => {
   };
 }; // OK
 
-const setFilterFormDefaultParameters = (data) => {
+const setFilterFormDefaultParameters = (dataFromServer) => {
   mapFilter.reset();
-  getFilteredData(data);
+  getFilteredData(dataFromServer);
 };
 
-const activationFilterForm = (data) => {
+const activationFilterForm = (dataFromServer) => {
   // Внутренняя логика
   mapFilter.classList.remove('ad-form--disabled');
   mapFilterElements.forEach((element) => {
@@ -121,9 +121,9 @@ const activationFilterForm = (data) => {
   });
 
   // Внешняя логика
-  setFilterFormDefaultParameters(data);
-  removeFilterFormChangeListener = onFilterFormChange(debounce(() => getFilteredData(data), TIMEOUT_DELAY));
-  getFilteredData(data);
+  setFilterFormDefaultParameters(dataFromServer);
+  removeFilterFormChangeListener = onFilterFormChange(debounce(() => getFilteredData(dataFromServer), TIMEOUT_DELAY));
+
 }; // OK
 
 const deactivationFilterForm = () => {

@@ -2,7 +2,6 @@ import { LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon, SIMILAR_OBJEC
 import { makeElement } from './util.js';
 import { objectType } from './constants.js';
 import { compareItems } from './filter-form.js';
-import { getData } from './data.js';
 
 // Объявляем переменные
 const map = L.map('map-canvas');

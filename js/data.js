@@ -1,9 +1,7 @@
-import { activationFilterForm } from './filter-form.js';
-import { showGetDataErrMsg, showSendDataSuccessMsg, showSendDataErrMsg } from './message.js';
+import { showSendDataSuccessMsg, showSendDataErrMsg } from './message.js';
 import { GET_URL, SEND_URL } from './constants.js';
-import { activationUserForm } from './user-form.js';
 
-const getData = () => {
+const getData = (activationFilterForm, activationUserForm, showGetDataErrMsg) => {
   fetch(GET_URL)
     .then((response) => {
       if (response.ok) {
@@ -12,9 +10,9 @@ const getData = () => {
 
       throw new Error();
     })
-    .then((dataIn) => {
-      activationFilterForm(dataIn);
-      activationUserForm(dataIn);
+    .then((datafromServer) => {
+      activationFilterForm(datafromServer);
+      activationUserForm(datafromServer);
     })
     .catch(() => {
       showGetDataErrMsg();
@@ -22,7 +20,7 @@ const getData = () => {
     });
 }; // OK
 
-const sendData = (body, dataIn) => {
+const sendData = (body, datafromServer) => {
   fetch(SEND_URL,
     {
       method: 'POST',
@@ -31,7 +29,7 @@ const sendData = (body, dataIn) => {
   )
     .then((response) => {
       if (response.ok) {
-        showSendDataSuccessMsg(dataIn);
+        showSendDataSuccessMsg(datafromServer);
         return;
       }
 

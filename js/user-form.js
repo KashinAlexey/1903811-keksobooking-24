@@ -22,28 +22,28 @@ const photoContainer = document.querySelector('.ad-form__photo-container');
 const photoContainerList = photoContainer.children;
 
 // Функции модуля
-const onResetUserForm = (getData) => {
+const onResetUserForm = (dataFromSerever) => {
   // Внутренняя логика
   resetButton.addEventListener('click', () => {
     // Внешняя логика
-    setDefaultsParameters(getData);
+    setDefaultsParameters(dataFromSerever);
   });
 }; // OK
 
-const onUserFormSubmit = (getData) => {
+const onUserFormSubmit = (dataFromSerever) => {
   // Внутренняя логика
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
-    sendData(formData, getData);
+    sendData(formData, dataFromSerever);
   });
 }; // OK
 
-const validationUserForm = (getData) => {
+const validationUserForm = (dataFromSerever) => {
   // Внешняя логика
   getAddressFromMap();
-  onResetUserForm(getData);
-  onUserFormSubmit(getData);
+  onResetUserForm(dataFromSerever);
+  onUserFormSubmit(dataFromSerever);
 
   // Внутренняя логика
   // Валидация формы добавления объявления.
@@ -179,10 +179,10 @@ const deactivationUserForm = () => {
   });
 }; // OK
 
-const activationUserForm = (getData) => {
+const activationUserForm = (dataFromSerever) => {
   // Внешняя логика
   setUserFormDefaultParameters();
-  validationUserForm(getData);
+  validationUserForm(dataFromSerever);
 
   // Внутренняя логика
   form.classList.remove('ad-form--disabled');
