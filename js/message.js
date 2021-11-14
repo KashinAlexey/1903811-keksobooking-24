@@ -5,33 +5,31 @@ import { setMapDefaultParameters } from './map.js';
 // Объявляем переменные
 let errMsgContainerForGetData;
 const errMsgContainerForSendData = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const butttonCloseErrMsgContainerForSendData = errMsgContainerForSendData.querySelector('.error__button');
+const buttonCloseErrMsgContainerForSendData = errMsgContainerForSendData.querySelector('.error__button');
 const successMsgContainerForSendData = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 
-const setDefaultsParameters = (getData) => {
+const setDefaultsParameters = (dataFromServer) => {
 
-  const isDataNotEmpty = Object.getOwnPropertyNames(getData).length > 2;
+  const isDataNotEmpty = Object.getOwnPropertyNames(dataFromServer).length > 2;
 
   setUserFormDefaultParameters();
   setMapDefaultParameters();
 
   if (isDataNotEmpty) {
-    setFilterFormDefaultParameters(getData);
+    setFilterFormDefaultParameters(dataFromServer);
   }
 };
 
-const closeGetDataErrMsg = (evt) => {
-  // Внутренняя логика
-  if (evt.key || evt.type === 'click') {
-    errMsgContainerForGetData.remove();
-    document.removeEventListener('keydown', closeGetDataErrMsg);
-    document.removeEventListener('click', closeGetDataErrMsg);
-  }
+const closeGetDataErrMsg = () => {
+  errMsgContainerForGetData.remove();
 }; // OK
-const onGetDataErrMsg = () => {
-  // Внешняя логика (или подписка на событие)
-  document.addEventListener('keydown', closeGetDataErrMsg);
-  document.addEventListener('click', closeGetDataErrMsg);
+const onGetDataErrMsg = (evt) => {
+  if (evt.key || evt.type === 'click') {
+    evt.preventDefault();
+    closeGetDataErrMsg();
+    document.removeEventListener('keydown', onGetDataErrMsg);
+    document.removeEventListener('click', onGetDataErrMsg);
+  }
 }; // OK
 const showGetDataErrMsg = () => {
   // Переменные
@@ -52,50 +50,50 @@ const showGetDataErrMsg = () => {
   document.body.append(errMsgContainerForGetData);
 
   // Внешняя логика
-  onGetDataErrMsg();
+  document.addEventListener('keydown', onGetDataErrMsg);
+  document.addEventListener('click', onGetDataErrMsg);
 }; // OK
 
-const closeSendDataSuccessMsg = (evt) => {
-  // Внутренняя логика
+const closeSendDataSuccessMsg = () => {
+  successMsgContainerForSendData.remove();
+}; // OK
+const onSendDataSuccessMsg = (evt) => {
+  // Внешняя логика (или подписка на событие)
   if (evt.key === 'Escape' || evt.type === 'click') {
-    successMsgContainerForSendData.remove();
-    document.removeEventListener('keydown', closeSendDataSuccessMsg);
-    document.removeEventListener('click', closeSendDataSuccessMsg);
+    closeSendDataSuccessMsg();
+    document.removeEventListener('keydown', onSendDataSuccessMsg);
+    document.removeEventListener('click', onSendDataSuccessMsg);
   }
 }; // OK
-const onSendDataSuccessMsg = () => {
-  // Внешняя логика (или подписка на событие)
-  document.addEventListener('keydown', closeSendDataSuccessMsg);
-  document.addEventListener('click', closeSendDataSuccessMsg);
-}; // OK
-const showSendDataSuccessMsg = (getData) => {
+const showSendDataSuccessMsg = (dataFromServer) => {
   // Внутренняя логика
   document.body.append(successMsgContainerForSendData);
-  // Внешняя логика
-  onSendDataSuccessMsg();
-  setDefaultsParameters(getData);
+  // Внешняя логика (или подписка на событие)
+  document.addEventListener('keydown', onSendDataSuccessMsg);
+  document.addEventListener('click', onSendDataSuccessMsg);
+  setDefaultsParameters(dataFromServer);
 }; // OK
 
-const closeSendDataErrMsg = (evt) => {
+const closeSendDataErrMsg = () => {
   // Внутренняя логика
-  if (evt.key === 'Escape' || evt.type === 'click') {
-    errMsgContainerForSendData.remove();
-    butttonCloseErrMsgContainerForSendData.removeEventListener('click', closeSendDataErrMsg);
-    document.removeEventListener('keydown', closeSendDataErrMsg);
-    document.removeEventListener('click', closeSendDataErrMsg);
-  }
+  errMsgContainerForSendData.remove();
 }; // OK
-const onSendDataErrMsg = () => {
+const onSendDataErrMsg = (evt) => {
   // Внешняя логика (или подписка на событие)
-  document.addEventListener('keydown', closeSendDataErrMsg);
-  document.addEventListener('click', closeSendDataErrMsg);
-  butttonCloseErrMsgContainerForSendData.addEventListener('click', closeSendDataErrMsg);
+  if (evt.key === 'Escape' || evt.type === 'click') {
+    closeSendDataErrMsg();
+    buttonCloseErrMsgContainerForSendData.removeEventListener('click', onSendDataErrMsg);
+    document.removeEventListener('keydown', onSendDataErrMsg);
+    document.removeEventListener('click', onSendDataErrMsg);
+  }
 }; // OK
 const showSendDataErrMsg = () => {
   // Внутренняя логика
   document.body.append(errMsgContainerForSendData);
-  // Внешняя логика
-  onSendDataErrMsg();
+  // Внешняя логика (или подписка на событие)
+  document.addEventListener('keydown', onSendDataErrMsg);
+  document.addEventListener('click', onSendDataErrMsg);
+  buttonCloseErrMsgContainerForSendData.addEventListener('click', onSendDataErrMsg);
 }; // OK
 
 export { showGetDataErrMsg, showSendDataSuccessMsg, showSendDataErrMsg, setDefaultsParameters};

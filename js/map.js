@@ -1,31 +1,35 @@
 import { LAT_TOKYO_CENTER, LNG_TOKYO_CENTER, mainIcon, simpleIcon, SIMILAR_OBJECT_COUNT } from './constants.js';
 import { makeElement } from './util.js';
 import { objectType } from './constants.js';
-import { compareItems } from './filter-form.js';
+import { compareOffer } from './filter-form.js';
 
 // Объявляем переменные
 const map = L.map('map-canvas');
-const mainMarker = L.marker([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER],{icon: L.icon(mainIcon),draggable: true});
+const mainMarker = L.marker([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], {icon: L.icon(mainIcon), draggable: true});
 const markerGroup = L.layerGroup().addTo(map);
 const address = document.querySelector('#address');
 
 // Находим шаблон который будем клонировать
 const similarObjectTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const renderMarkersOnMap = (data) => {
+const renderMarkersOnMap = (dataFromServer) => {
 
   markerGroup.clearLayers();
 
-  data.filter(compareItems).slice(0, SIMILAR_OBJECT_COUNT).forEach(({author, location, offer}) => {
-    const {lat, lng} = location;
+  dataFromServer.filter(compareOffer).slice(0, SIMILAR_OBJECT_COUNT).forEach(({ author, location, offer }) => {
+    const { lat, lng } = location;
     const objectElement = similarObjectTemplate.cloneNode(true); // Клонируем шаблон
+    const featureContainer = objectElement.querySelector('.popup__features');
+    featureContainer.innerHTML = '';
+    const descriptionContainer = objectElement.querySelector('.popup__description');
+    const photoContainer = objectElement.querySelector('.popup__photos');photoContainer.innerHTML = '';
+
     objectElement.querySelector('.popup__title').textContent = offer.title;  objectElement.querySelector('.popup__text--address').textContent = offer.address;
     objectElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
     objectElement.querySelector('.popup__type').textContent = objectType[offer.type];
     objectElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
     objectElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-    const featureContainer = objectElement.querySelector('.popup__features');featureContainer.innerHTML = '';
     if(offer.features) {
       offer.features.forEach((feature) => {
         const featureListItem = makeElement('li', ['popup__feature', `popup__feature--${feature}`]);
@@ -35,14 +39,12 @@ const renderMarkersOnMap = (data) => {
       featureContainer.remove(); // Если отсутвуют опции скрываем блок
     }
 
-    const descriptionContainer = objectElement.querySelector('.popup__description');
     if(offer.description) {
       descriptionContainer.textContent = offer.description;
     } else {
       descriptionContainer.remove(); // Если отсутвует описание скрываем блок
     }
 
-    const photoContainer = objectElement.querySelector('.popup__photos');photoContainer.innerHTML = '';
     if(offer.photos) {
       offer.photos.forEach((photo) => {
         const photoListItem = makeElement('img', ['popup__photo']);photoListItem.src = photo;
@@ -76,11 +78,11 @@ const setMapDefaultParameters = () => {
   address.setAttribute('value', `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`);
 };
 
-const mapLoad = (cb) => {
+const loadMap = (callback) => {
   // Внутренняя логика
   map.on('load', () => {
     // Внешняя логика
-    cb();
+    callback();
   }).setView([LAT_TOKYO_CENTER, LNG_TOKYO_CENTER], 12);
 
   // Добавляем в блок изображение самой карты от стороннего поставщика
@@ -108,4 +110,4 @@ const getAddressFromMap = () =>  {
   onAddressFromMap();
 }; // OK
 
-export { mapLoad, getAddressFromMap, renderMarkersOnMap, setMapDefaultParameters };
+export { loadMap, getAddressFromMap, renderMarkersOnMap, setMapDefaultParameters };

@@ -1,17 +1,4 @@
-import {MANDATORY_TEXT, ALERT_SHOW_TIME} from './constants.js';
-
-// Функция, возвращающая случайное целое число из переданного диапазона включительно
-const getRandomIntegerInclusive = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-// Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно с указанным "количеством знаков после запятой"
-const getRandomFloatInclusive = (min, max, simbolsCount) => +((Math.random() * (max - min)) + min).toFixed(simbolsCount);
-
-// Функция, возвращающая новый массив случайной длины, состоящий из неповторящихся элементов принимаего массива
-const getNewRandomArray = (elements) => elements.slice(0, getRandomIntegerInclusive(1, elements.length));
+import { MANDATORY_TEXT } from './constants.js';
 
 // Функция, возвращающую новый элемент с тегом, классами и текстом (при наличии) для добавления в разметку
 const makeElement = (tagName, classNames, text) => {
@@ -26,7 +13,7 @@ const makeElement = (tagName, classNames, text) => {
 };
 
 // Функция валидации ввода (текста или чисел) в определнном диапазоне min и max (символов или значений) с выводом сообщений
-const isInputValueInRange = (elementInput, min, max, textForMin, textForMax, isNumber) => {
+const checkInputValueInRange = (elementInput, min, max, textForMin, textForMax, isNumber) => {
   let value;
 
   if (isNumber) {
@@ -55,34 +42,13 @@ const checkMandatoryValue = (elementInput) => {
   }
 };
 
-// Формирование и показ блока с сообщением об ошибке загрузки данных
-const showErrorAlert = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-
-  alertContainer.textContent = message;
-
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
-};
-
-function debounce (callback, timeoutDelay = 500) {
+// Фнкция устранения мерцания
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-export {getRandomIntegerInclusive, getRandomFloatInclusive, getNewRandomArray, makeElement, isInputValueInRange, checkMandatoryValue, showErrorAlert, debounce};
+export { makeElement, checkInputValueInRange, checkMandatoryValue, debounce };

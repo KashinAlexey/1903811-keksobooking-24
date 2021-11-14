@@ -1,6 +1,4 @@
 import { renderMarkersOnMap } from './map.js';
-import { debounce } from './util.js';
-import { TIMEOUT_DELAY } from './constants.js';
 
 // Объявляем переменные
 const mapFilter = document.querySelector('.map__filters');
@@ -12,19 +10,17 @@ const housingGuests = mapFilter.querySelector('#housing-guests');
 const housingFeatures = mapFilter.querySelector('#housing-features');
 const housingFeaturesElements = housingFeatures.querySelectorAll('input');
 
-let removeFilterFormChangeListener = () => {};
-
 // Функция проверки элементов массива на соотвествие критериям
-const compareItems = ({offer}) => {
+const compareOffer = ({offer}) => {
 
   const getFeaturesValue = () => {
-    const choosenFeaturesArray = [];
+    const chosenFeaturesArray = [];
     housingFeaturesElements.forEach((element) => {
       if (element.checked) {
-        choosenFeaturesArray.push(element.value);
+        chosenFeaturesArray.push(element.value);
       }
     });
-    return choosenFeaturesArray;
+    return chosenFeaturesArray;
   };
 
   const checkPriceRange = (price) => {
@@ -40,7 +36,7 @@ const compareItems = ({offer}) => {
     return priceRange;
   };
 
-  const searchСriteria = {
+  const searchCriteria = {
     type: housingType.value,
     rooms: housingRooms.value,
     price: housingPrice.value,
@@ -53,7 +49,7 @@ const compareItems = ({offer}) => {
   let priceAny = '';
   let guestsAny = 0;
   let isFeaturesInclude = true;
-  const currentSearchCriteria = searchСriteria;
+  const currentSearchCriteria = searchCriteria;
   const currentFeaturesCriteria = getFeaturesValue() || [];
   const offerPrice = checkPriceRange(offer.price) || '';
   const offerFeatures = offer.features || [];
@@ -99,12 +95,12 @@ const getFilteredData = (dataFromServer) => {
   renderMarkersOnMap(dataFromServer);
 }; // OK
 
-const onFilterFormChange = (cb) => {
+const onFilterFormChange = (callback) => {
   // Внешняя логика (или подписка на событие)
-  mapFilter.addEventListener('input', cb);
+  mapFilter.addEventListener('input', callback);
   return () => {
     // деактивация формы
-    mapFilter.removeEventListener('input', cb);
+    mapFilter.removeEventListener('input', callback);
   };
 }; // OK
 
@@ -113,7 +109,7 @@ const setFilterFormDefaultParameters = (dataFromServer) => {
   getFilteredData(dataFromServer);
 };
 
-const activationFilterForm = (dataFromServer) => {
+const activationFilterForm = (callback) => {
   // Внутренняя логика
   mapFilter.classList.remove('ad-form--disabled');
   mapFilterElements.forEach((element) => {
@@ -121,18 +117,16 @@ const activationFilterForm = (dataFromServer) => {
   });
 
   // Внешняя логика
-  setFilterFormDefaultParameters(dataFromServer);
-  removeFilterFormChangeListener = onFilterFormChange(debounce(() => getFilteredData(dataFromServer), TIMEOUT_DELAY));
-
+  callback();
 }; // OK
 
-const deactivationFilterForm = () => {
+const deactivationFilterForm = (callback) => {
   mapFilter.classList.add('ad-form--disabled');
   mapFilterElements.forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
 
-  removeFilterFormChangeListener();
+  callback();
 }; // OK
 
-export { deactivationFilterForm, activationFilterForm, compareItems, setFilterFormDefaultParameters };
+export { deactivationFilterForm, activationFilterForm, compareOffer, setFilterFormDefaultParameters, onFilterFormChange, getFilteredData };
