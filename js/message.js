@@ -12,7 +12,7 @@ const setDefaultsParameters = (dataFromServer) => {
 
   const isDataNotEmpty = Object.getOwnPropertyNames(dataFromServer).length > 2;
 
-  setUserFormDefaultParameters();
+  setUserFormDefaultParameters('all');
   setMapDefaultParameters();
 
   if (isDataNotEmpty) {

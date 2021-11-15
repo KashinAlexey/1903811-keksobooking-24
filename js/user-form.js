@@ -34,6 +34,31 @@ const onUserFormSubmitClick = (evt, dataFromServer) => {
   sendData(formData, dataFromServer);
 }; // OK
 
+const setUserFormDefaultParameters = (parametr) => {
+  const resetAvatar = () => {
+    headerPreview.src = avatarSettings.src;
+    headerPreview.alt = avatarSettings.alt;
+    headerPreview.width = avatarSettings.width;
+    headerPreview.height = avatarSettings.height;
+  };
+
+  const resetImagePreview = () => {
+    while (photoContainerList.length !== 1) {
+      photoContainerList[1].remove();
+    }
+  };
+
+  if (parametr === 'all') {
+    form.reset();
+    resetImagePreview();
+    resetAvatar();
+  } else if (parametr === 'avatar') {
+    resetAvatar();
+  } else if (parametr === 'image') {
+    resetImagePreview();
+  }
+}; // OK
+
 const validationUserForm = (dataFromServer) => {
   // Внешняя логика
   getAddressFromMap();
@@ -110,32 +135,19 @@ const validationUserForm = (dataFromServer) => {
   timeInInput.addEventListener('change', onTimeoutValueChange);
   timeOutInput.addEventListener('change', onTimeinValueChange);
 
-  // Функция очистки контейнера с аватаром
-  const resetAvatar = () => {
-    headerPreview.src = avatarSettings.src;
-    headerPreview.alt = avatarSettings.alt;
-    headerPreview.width = avatarSettings.width;
-    headerPreview.height = avatarSettings.height;
-  };
   // Показать превью аватара после ввода
   const showAvatarPreview = () => {
     headerPreview.src =  window.URL.createObjectURL(avatarInput.files[0]);
   };
   const onAvatarPreviewInput = () => {
-    resetAvatar();
+    //resetAvatar();
+    setUserFormDefaultParameters('avatar');
     showAvatarPreview();
   };
   avatarInput.addEventListener('input', onAvatarPreviewInput);
 
   // Фотографии жилья
   // Функция показа превью фотографий жилья после ввода
-  // Фунция очистки контейнера с фотографиями
-  const resetImagePreview = () => {
-    // Очищаем контейнер от текущих фото
-    while (photoContainerList.length !== 1) {
-      photoContainerList[1].remove();
-    }
-  };
   const showImagesPreview = () => {
     // Создаем фрагмент для добавления фото
     const photoListFragment = document.createDocumentFragment();
@@ -161,29 +173,11 @@ const validationUserForm = (dataFromServer) => {
     photoContainer.appendChild(photoListFragment);
   };
   const onImagesPreviewInput = () => {
-    resetImagePreview();
+    //resetImagePreview();
+    setUserFormDefaultParameters('image');
     showImagesPreview();
   };
   imageInput.addEventListener('input', onImagesPreviewInput);
-}; // OK
-
-const setUserFormDefaultParameters = () => {
-  const resetAvatarImg = () => {
-    headerPreview.src = avatarSettings.src;
-    headerPreview.alt = avatarSettings.alt;
-    headerPreview.width = avatarSettings.width;
-    headerPreview.height = avatarSettings.height;
-  };
-
-  const resetItemImg = () => {
-    while (photoContainerList.length !== 1) {
-      photoContainerList[1].remove();
-    }
-  };
-
-  form.reset();
-  resetItemImg();
-  resetAvatarImg();
 }; // OK
 
 const deactivationUserForm = () => {
@@ -195,7 +189,7 @@ const deactivationUserForm = () => {
 
 const activationUserForm = (dataFromServer) => {
   // Внешняя логика
-  setUserFormDefaultParameters();
+  setUserFormDefaultParameters('all');
   validationUserForm(dataFromServer);
 
   // Внутренняя логика
