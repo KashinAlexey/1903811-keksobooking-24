@@ -25,14 +25,14 @@ const photoContainerList = photoContainer.children;
 
 const onResetUserFormClick = (dataFromServer) => {
   setDefaultsParameters(dataFromServer);
-}; // OK
+};
 
 const onUserFormSubmitClick = (evt, dataFromServer) => {
   // Внутренняя логика
   evt.preventDefault();
   const formData = new FormData(evt.target);
   sendData(formData, dataFromServer);
-}; // OK
+};
 
 const setUserFormDefaultParameters = (parametr) => {
   const resetAvatar = () => {
@@ -57,7 +57,7 @@ const setUserFormDefaultParameters = (parametr) => {
   } else if (parametr === 'image') {
     resetImagePreview();
   }
-}; // OK
+};
 
 const validationUserForm = (dataFromServer) => {
   // Внешняя логика
@@ -178,14 +178,14 @@ const validationUserForm = (dataFromServer) => {
     showImagesPreview();
   };
   imageInput.addEventListener('input', onImagesPreviewInput);
-}; // OK
+};
 
 const deactivationUserForm = () => {
   form.classList.add('ad-form--disabled');
   formElements.forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
-}; // OK
+};
 
 const activationUserForm = (dataFromServer) => {
   // Внешняя логика
@@ -197,6 +197,6 @@ const activationUserForm = (dataFromServer) => {
   formElements.forEach((element) => {
     element.removeAttribute('disabled');
   });
-}; //OK
+};
 
 export { deactivationUserForm, activationUserForm, setUserFormDefaultParameters };

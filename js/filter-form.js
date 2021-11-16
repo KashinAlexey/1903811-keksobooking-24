@@ -88,12 +88,12 @@ const compareOffer = ({offer}) => {
   }
 
   return offer.type === typeAny && offer.rooms === roomsAny && offerPrice === priceAny && offer.guests === guestsAny && isFeaturesInclude;
-}; // OK
+};
 
 const getFilteredData = (dataFromServer) => {
   // Внешняя логика
   renderMarkersOnMap(dataFromServer);
-}; // OK
+};
 
 const onFilterFormChange = (callback) => {
   // Внешняя логика (или подписка на событие)
@@ -102,7 +102,7 @@ const onFilterFormChange = (callback) => {
     // деактивация формы
     mapFilter.removeEventListener('input', callback);
   };
-}; // OK
+};
 
 const setFilterFormDefaultParameters = (dataFromServer) => {
   mapFilter.reset();
@@ -118,7 +118,7 @@ const activationFilterForm = (callback) => {
 
   // Внешняя логика
   callback();
-}; // OK
+};
 
 const deactivationFilterForm = (callback) => {
   mapFilter.classList.add('ad-form--disabled');
@@ -127,6 +127,6 @@ const deactivationFilterForm = (callback) => {
   });
 
   callback();
-}; // OK
+};
 
 export { deactivationFilterForm, activationFilterForm, compareOffer, setFilterFormDefaultParameters, onFilterFormChange, getFilteredData };

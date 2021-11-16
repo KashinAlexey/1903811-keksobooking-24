@@ -92,22 +92,22 @@ const loadMap = (callback) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
     },
   ).addTo(map);
-}; // OK
+};
 
 const showAddressFromMap = (evt) => {
   const {lat, lng} = evt.target.getLatLng();
   address.value = `${lat.toFixed(5)},${lng.toFixed(5)}`;
-}; // OK
+};
 const onAddressFromMap = () => {
   // Внешняя логика (или подписка на событие)
   mainMarker.on('moveend', showAddressFromMap);
-}; // OK
+};
 const getAddressFromMap = () =>  {
   // Внутренняя логика
   mainMarker.addTo(map);
   address.value = `${LAT_TOKYO_CENTER}, ${LNG_TOKYO_CENTER}`;
   // Внешняя логика
   onAddressFromMap();
-}; // OK
+};
 
 export { loadMap, getAddressFromMap, renderMarkersOnMap, setMapDefaultParameters };

@@ -16,7 +16,7 @@ const getData = (onSuccessGetData, onErrorGetData) => {
     .catch(() => {
       onErrorGetData();
     });
-}; // OK
+};
 
 const sendData = (body, dataFromServer) => {
   fetch(SEND_URL,
@@ -36,6 +36,6 @@ const sendData = (body, dataFromServer) => {
     .catch(() => {
       showSendDataErrMsg();
     });
-}; // OK
+};
 
 export { getData, sendData };
